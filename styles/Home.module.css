@@ -1,9 +1,9 @@
 .container {
   padding: 0 2rem;
+  min-height: 100vh;
 }
 
 .main {
-  min-height: 100vh;
   padding: 4rem 0;
   flex: 1;
   display: flex;
@@ -41,7 +41,7 @@
 
 .title {
   margin: 0;
-  line-height: 1.15;
+  /* line-height: 1.15; */
   font-size: 4rem;
 }
 
@@ -57,12 +57,15 @@
 }
 
 .code {
+  display: block;
   background: #fafafa;
   border-radius: 5px;
   padding: 0.75rem;
   font-size: 1.1rem;
   font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
     Bitstream Vera Sans Mono, Courier New, monospace;
+  overflow-wrap: break-word;
+  max-width: 800px;
 }
 
 .grid {
@@ -107,6 +110,24 @@
   height: 1em;
   margin-left: 0.5rem;
 }
+
+/* START customize-image styles */
+.overlapGrid {
+  display: grid;
+  grid-template-areas: "overlay";
+}
+
+.overlapGrid > span {
+  grid-area: overlay;
+}
+.overlapGrid > div {
+  grid-area: overlay;
+}
+.overlapGrid > img {
+  grid-area: overlay;
+}
+
+/* START media queries */
 
 @media (max-width: 600px) {
   .grid {
