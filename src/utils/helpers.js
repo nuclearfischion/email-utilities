@@ -1,4 +1,4 @@
-const setDimensions = (value) => {
+export const setDimensions = (value) => {
   console.log(`value`)
   console.log(value)
 
@@ -16,7 +16,7 @@ const setDimensions = (value) => {
   }
 };
 
-const makeThumbnail = (value, setIsVideoThumbnail) => {
+export const makeThumbnail = (value, setIsVideoThumbnail) => {
   if (value == 'videoThumbnail') {
     console.log(`its a video thumbnail!`);
     setIsVideoThumbnail(true);
@@ -27,7 +27,7 @@ const makeThumbnail = (value, setIsVideoThumbnail) => {
   }
 };
 
-const isValidHttpUrl = (string) => {
+export const isValidHttpUrl = (string) => {
   // let url;
   try {
     const url = new URL(string);
@@ -39,7 +39,7 @@ const isValidHttpUrl = (string) => {
   return true;
 };
 
-const buildSrcUrl = (imgProperties) => {
+export const buildSrcUrl = (imgProperties) => {
   const { urlBase, fit, focus, width, height } = imgProperties;
 
   // if fit == fill, then add focus
@@ -49,5 +49,3 @@ const buildSrcUrl = (imgProperties) => {
 
   return newSrc;
 };
-
-export { setDimensions, makeThumbnail, isValidHttpUrl, buildSrcUrl };
