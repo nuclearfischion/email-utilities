@@ -3,8 +3,8 @@ function setDimensions(value) {
   console.log(value)
 
   if (value == '1x1') {
-    const w = 150;
-    const h = 150;
+    const w = 168;
+    const h = 168;
     return {width: w, height: h};
     // setContentfulImgProperties({ ...contentfulImgProperties, width: w, height: h });
   }
@@ -44,7 +44,7 @@ function buildSrcUrl(imgProperties) {
 
   // if fit == fill, then add focus
   let newSrc = `${urlBase}?fit=${fit}&w=${width}&h=${height}`;
-  if (fit === 'fill')
+  // if (fit === 'fill')
     newSrc += `&f=${focus}`;
 
   return newSrc;

@@ -2,6 +2,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import { Box } from "@chakra-ui/react"
+import Link from 'next/link'
 
 export default function Home({ Component, pageProps }) {
   return (
@@ -23,10 +24,13 @@ export default function Home({ Component, pageProps }) {
         </p>
 
         <div className={styles.grid}>
-          <a href="/customize-image" className={styles.card}>
-            <h2>Customize an Image &rarr;</h2>
-            <p>Generate Contentful images on the fly</p>
-          </a>
+          <Link href="/customize-image" >
+            <div className={styles.card}>
+              <h2>Customize an Image &rarr;</h2>
+              <p>Generate Contentful images on the fly</p>
+            </div>
+          </Link>
+
         </div>
       </main>
 

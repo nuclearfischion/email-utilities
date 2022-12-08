@@ -18,8 +18,8 @@ export default function CustomizeImage() {
   const contentfulImgInit = {
       fit: 'fill',
       focus: 'face',
-      width: '150',
-      height: '150',
+      width: '168',
+      height: '168',
       urlBase: 'https://images.ctfassets.net/hg121nxz9t5c/1O12hxeZDolKBZP72c84SA/5b24a20ba00616101e08544861dd6755/iStock-629668612.jpg',
   };
   const [contentfulImgProperties, setContentfulImgProperties] = useState(contentfulImgInit);
@@ -28,6 +28,7 @@ export default function CustomizeImage() {
   const[ isVideoThumbnail, setIsVideoThumbnail ] = useState(false);
 
   const playIconSize = useMemo(() => ({ width: 50, height: 50 }), []);
+  // const playIconSize = useMemo(() => ({ width: 80, height: 80 }), []);
 
   useEffect(() => {
 
