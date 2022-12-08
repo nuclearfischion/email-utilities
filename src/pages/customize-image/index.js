@@ -161,7 +161,7 @@ export default function CustomizeImage() {
                     width: `${playIconSize.width}px !important`,
                     height: `${playIconSize.height}px !important`
                   }}
-                  src={`/play-button.svg`} />
+                  src={`./play-button.svg`} />
               </picture>
           </Box>
             <Box>
