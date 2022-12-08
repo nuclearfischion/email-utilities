@@ -6,7 +6,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { useEffect, useState, useReducer, useRef, useMemo } from 'react'
 import styles from '../../styles/Home.module.css'
-import { setDimensions, makeThumbnail, isValidHttpUrl, buildSrcUrl, } from './helpers';
+import { setDimensions, makeThumbnail, isValidHttpUrl, buildSrcUrl } from './helpers'
 
 export default function CustomizeImage() {
 
@@ -127,7 +127,7 @@ export default function CustomizeImage() {
           <Box className='dimensionsOptions' boxShadow='xs' p='6' rounded='md' bg='white'>
             <Heading>Set Dimensions</Heading>
             <RadioGroup  onChange={(e) => {
-              const dimensions = setDimensions(e); 
+              const dimensions = setDimensionsil(e); 
               setContentfulImgProperties({...contentfulImgProperties, ...dimensions});
             }}>
               <Stack direction='row'>

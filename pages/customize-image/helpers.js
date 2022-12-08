@@ -1,4 +1,4 @@
-function setDimensions(value) {
+const setDimensions = (value) => {
   console.log(`value`)
   console.log(value)
 
@@ -14,9 +14,9 @@ function setDimensions(value) {
     return {width: w, height: h};
     // setContentfulImgProperties({ ...contentfulImgProperties, width: w, height: h });
   }
-}
+};
 
-function makeThumbnail(value, setIsVideoThumbnail) {
+const makeThumbnail = (value, setIsVideoThumbnail) => {
   if (value == 'videoThumbnail') {
     console.log(`its a video thumbnail!`);
     setIsVideoThumbnail(true);
@@ -25,9 +25,9 @@ function makeThumbnail(value, setIsVideoThumbnail) {
     console.log(`its a video thumbnail!`);
     setIsVideoThumbnail(false);
   }
-}
+};
 
-function isValidHttpUrl(string) {
+const isValidHttpUrl = (string) => {
   // let url;
   try {
     const url = new URL(string);
@@ -37,9 +37,9 @@ function isValidHttpUrl(string) {
     return false;
   }
   return true;
-}
+};
 
-function buildSrcUrl(imgProperties) {
+const buildSrcUrl = (imgProperties) => {
   const { urlBase, fit, focus, width, height } = imgProperties;
 
   // if fit == fill, then add focus
@@ -48,6 +48,6 @@ function buildSrcUrl(imgProperties) {
     newSrc += `&f=${focus}`;
 
   return newSrc;
-}
+};
 
-export { setDimensions, makeThumbnail, isValidHttpUrl, buildSrcUrl, };
+export { setDimensions, makeThumbnail, isValidHttpUrl, buildSrcUrl };
