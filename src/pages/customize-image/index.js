@@ -7,6 +7,7 @@ import Image from 'next/image'
 import { useEffect, useState, useReducer, useRef, useMemo } from 'react'
 import styles from '../../styles/Home.module.css'
 import { setDimensions, makeThumbnail, isValidHttpUrl, buildSrcUrl } from '../../utils/helpers'
+import Navbar from '../../components/Navbar';
 
 export default function CustomizeImage() {
 
@@ -80,6 +81,7 @@ export default function CustomizeImage() {
 
   return (
     <Box className={styles.container} bg='gray.50'>
+      <Navbar></Navbar>
       <Head>
         <title>Customize a Contentful Image</title>
         <meta name="description" content="Customize a Contentful Image" />
@@ -93,14 +95,14 @@ export default function CustomizeImage() {
 
         <HStack alignItems={'stretch'} my={4}>
           <Box className='urlInput' boxShadow='xs' p='6' rounded='md' bg='white'>
-            <Heading>Set URL</Heading>
+            <Text size='sm' fontWeight='bold'>Set URL</Text>
             <Text>This should start with <code>https://images.ctfassets.net/</code></Text>
             <Input mt={5} placeholder='https://images.ctfassets.net/your-image-here' 
               value={contentfulImgProperties.urlBase} 
               onChange={(e) => { setContentfulImgProperties({ ...contentfulImgProperties, urlBase: e.target.value }); console.log(e.target.value)}}></Input>
           </Box>
           <Box className='fitOptions' boxShadow='xs' p='6' rounded='md' bg='white'>
-            <Heading>Set Resizing Behavior</Heading>
+            <Text size='sm' fontWeight='bold'>Set Resizing Behavior</Text>
             <Text>Leave this on <code>fill</code> unless you know what you&rsquo;re doing.</Text>
             <RadioGroup mt={5} onChange={(e) => setContentfulImgProperties({ ...contentfulImgProperties, fit: e })} value={contentfulImgProperties.fit}>
               <Stack direction='row'>
@@ -113,7 +115,7 @@ export default function CustomizeImage() {
             </RadioGroup>
           </Box>
           <Box className='focusOptions' boxShadow='xs' p='6' rounded='md' bg='white'>
-            <Heading>Set Focus</Heading>
+            <Text size='sm' fontWeight='bold'>Set Focus</Text>
             <RadioGroup mt={5} onChange={(e) => setContentfulImgProperties({ ...contentfulImgProperties, focus: e })} value={contentfulImgProperties.focus}>
               <Stack direction='row'>
                 <Radio value='center'>center</Radio>
@@ -125,7 +127,7 @@ export default function CustomizeImage() {
         </HStack>
         <HStack alignItems={'stretch'} my={4}>
           <Box className='dimensionsOptions' boxShadow='xs' p='6' rounded='md' bg='white'>
-            <Heading>Set Dimensions</Heading>
+            <Text size='sm' fontWeight='bold'>Set Dimensions</Text>
             <RadioGroup  onChange={(e) => {
               const dimensions = setDimensions(e); 
               setContentfulImgProperties({...contentfulImgProperties, ...dimensions});
@@ -137,7 +139,7 @@ export default function CustomizeImage() {
             </RadioGroup>
           </Box>
           <Box className='miscOptions' boxShadow='xs' p='6' rounded='md' bg='white'>
-            <Heading>Set Misc. Options</Heading>
+            <Text size='sm' fontWeight='bold'>Set Misc. Options</Text>
             <CheckboxGroup onChange={(e) => makeThumbnail(e, setIsVideoThumbnail)}>
               <Stack direction='row'>
                 <Checkbox value='videoThumbnail'>Video Thumbnail</Checkbox>
@@ -145,8 +147,8 @@ export default function CustomizeImage() {
             </CheckboxGroup>
           </Box>
         </HStack>
-        <Box boxShadow='xs' p='6' rounded='md' my={8}>
-          <Heading mb={6}>Video Thumbnail</Heading>
+        <Box boxShadow='xs' p='6' rounded='md' my={8} bg='white'>
+          <Text size='sm' fontWeight='bold'>Video Thumbnail</Text>
           {/* Below images are needed for canvas draw */}
           {/* <Box id='image-container' className={styles.overlapGrid}> */}
           <Box id='image-container' className={styles.overlapGrid} visibility='hidden' pos={'absolute'}>
@@ -165,8 +167,12 @@ export default function CustomizeImage() {
               </picture>
           </Box>
             <Box>
-              Save the image below and upload to Contentful.
-            <canvas ref={canvasRef} width={contentfulImgProperties.width} height={contentfulImgProperties.height}>
+              <Text mb={6}>Save the image below and upload to Contentful.</Text>
+              <canvas
+              style={{ "boxShadow": "rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset, rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px"}}
+              ref={canvasRef} 
+              width={contentfulImgProperties.width} 
+              height={contentfulImgProperties.height}>
               </canvas>
             </Box>
         </Box>

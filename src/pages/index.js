@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
-import { Box } from "@chakra-ui/react"
+import { Box, Text } from "@chakra-ui/react"
 import Link from 'next/link'
 
 export default function Home({ Component, pageProps }) {
@@ -15,37 +15,31 @@ export default function Home({ Component, pageProps }) {
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">email utilities!</a>
+          Email Utilities
         </h1>
 
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
+        <Text className={styles.description}>
+          Tools for building emails in Pardot
+        </Text>
 
         <div className={styles.grid}>
-          <Link href="/customize-image" >
+          <Link href="/customize-image">
             <div className={styles.card}>
               <h2>Customize an Image &rarr;</h2>
-              <p>Generate Contentful images on the fly</p>
             </div>
           </Link>
-
+          <a target="_blank" rel="noreferrer" href="https://airtable.com/appbAhYQGUWnljk35/pagDS1LiP72L77oSk?eezFR=recpGeV6ar5QxygNI">
+            <div className={styles.card}>
+              <h2>Create a CTA Button ↗</h2>
+            </div>
+          </a>
+          <a target="_blank" rel="noreferrer" href="https://ical.marudot.com/">
+            <div className={styles.card}>
+              <h2>Create a calendar file ↗</h2>
+            </div>
+          </a>
         </div>
       </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <span className={styles.logo}>
-            <Image src="./vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
-      </footer>
     </Box>
   )
 }
