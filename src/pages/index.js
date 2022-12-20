@@ -5,6 +5,7 @@ import { Box, Text } from "@chakra-ui/react"
 import Link from 'next/link'
 
 export default function Home({ Component, pageProps }) {
+  console.log("apples")
   return (
     <Box className={styles.container}>
       <Head>

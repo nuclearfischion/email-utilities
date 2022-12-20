@@ -10,11 +10,11 @@ import { setDimensions, makeThumbnail, isValidHttpUrl, buildSrcUrl } from '../..
 import Navbar from '../../components/Navbar';
 
 export default function CustomizeImage() {
-
   // CANVAS STUFF
   const canvasRef = useRef(null);
   const contentfulImgRef = useRef(null);
   const playImgRef = useRef(null);
+
 
   const contentfulImgInit = {
       fit: 'fill',
@@ -27,13 +27,23 @@ export default function CustomizeImage() {
   const [imgLoaded, setImgLoaded] = useState(false);
   const [srcUrl, setSrcUrl] = useState(`${contentfulImgProperties.urlBase}?fit=${contentfulImgProperties.fit}&f=${contentfulImgProperties.focus}&w=${contentfulImgProperties.width}&h=${contentfulImgProperties.height}`);
   const[ isVideoThumbnail, setIsVideoThumbnail ] = useState(false);
-
   const playIconSize = useMemo(() => ({ width: 50, height: 50 }), []);
   // const playIconSize = useMemo(() => ({ width: 80, height: 80 }), []);
+
+  const preLoad = () => {
+    const img = document.createElement("img")
+    img.src = srcUrl
+    img.onload = () => {
+      console.log("Image restart")
+      setImgLoaded(true)
+      console.log(img.src)
+    }
+  }
 
   useEffect(() => {
 
     const newSrc = buildSrcUrl(contentfulImgProperties);
+    preLoad(newSrc)
     setSrcUrl(newSrc);
     
     // CANVAS STUFF
@@ -49,15 +59,19 @@ export default function CustomizeImage() {
       // draw
     contentfulImgRef.current.onload
     console.log('attempting to draw...')
-    console.log(contentfulImgRef.current.src)
     // if (isValidHttpUrl(contentfulImgRef.current.src))
+    console.log('Vashisht gypta')
+    console.log(imgLoaded)
     if (isValidHttpUrl(contentfulImgRef.current.src) && (imgLoaded == true)){
-      console.log('attempting to draw image to canvas.')
+      console.log(srcUrl)
       context.drawImage(contentfulImgRef.current, 0, 0);
+      console.log('IMAGE LOADED')
+      setImgLoaded(false)
     }
-    else
+    else{
       console.log('could not draw image to canvas.');
-
+      setImgLoaded(false)
+    }
     const playIconParams = {
       img: playImgRef.current,
       canvasX: (contentfulImgProperties.width / 2) - (playIconSize.width / 2),
@@ -99,12 +113,12 @@ export default function CustomizeImage() {
             <Text>This should start with <code>https://images.ctfassets.net/</code></Text>
             <Input mt={5} placeholder='https://images.ctfassets.net/your-image-here' 
               value={contentfulImgProperties.urlBase} 
-              onChange={(e) => { setContentfulImgProperties({ ...contentfulImgProperties, urlBase: e.target.value }); console.log(e.target.value)}}></Input>
+              onChange={(e) => { setImgLoaded(false);setContentfulImgProperties({ ...contentfulImgProperties, urlBase: e.target.value }); console.log(e.target.value)}}></Input>
           </Box>
           <Box className='fitOptions' boxShadow='xs' p='6' rounded='md' bg='white'>
             <Text size='sm' fontWeight='bold'>Set Resizing Behavior</Text>
             <Text>Leave this on <code>fill</code> unless you know what you&rsquo;re doing.</Text>
-            <RadioGroup mt={5} onChange={(e) => setContentfulImgProperties({ ...contentfulImgProperties, fit: e })} value={contentfulImgProperties.fit}>
+            <RadioGroup mt={5} onChange={(e) => { setImgLoaded(false);setContentfulImgProperties({ ...contentfulImgProperties, fit: e })}} value={contentfulImgProperties.fit}>
               <Stack direction='row'>
                 <Radio value="fill">fill</Radio>
                 <Radio value='pad'>pad</Radio>
@@ -116,7 +130,7 @@ export default function CustomizeImage() {
           </Box>
           <Box className='focusOptions' boxShadow='xs' p='6' rounded='md' bg='white'>
             <Text size='sm' fontWeight='bold'>Set Focus</Text>
-            <RadioGroup mt={5} onChange={(e) => setContentfulImgProperties({ ...contentfulImgProperties, focus: e })} value={contentfulImgProperties.focus}>
+            <RadioGroup mt={5} onChange={(e) => { setImgLoaded(false);setContentfulImgProperties({ ...contentfulImgProperties, focus: e })}} value={contentfulImgProperties.focus}>
               <Stack direction='row'>
                 <Radio value='center'>center</Radio>
                 <Radio value='face'>single face</Radio>
@@ -129,6 +143,7 @@ export default function CustomizeImage() {
           <Box className='dimensionsOptions' boxShadow='xs' p='6' rounded='md' bg='white'>
             <Text size='sm' fontWeight='bold'>Set Dimensions</Text>
             <RadioGroup  onChange={(e) => {
+              setImgLoaded(false);
               const dimensions = setDimensions(e); 
               setContentfulImgProperties({...contentfulImgProperties, ...dimensions});
             }}>
@@ -140,7 +155,7 @@ export default function CustomizeImage() {
           </Box>
           <Box className='miscOptions' boxShadow='xs' p='6' rounded='md' bg='white'>
             <Text size='sm' fontWeight='bold'>Set Misc. Options</Text>
-            <CheckboxGroup onChange={(e) => makeThumbnail(e, setIsVideoThumbnail)}>
+            <CheckboxGroup onChange={(e) => { setImgLoaded(false); makeThumbnail(e, setIsVideoThumbnail)}}>
               <Stack direction='row'>
                 <Checkbox value='videoThumbnail'>Video Thumbnail</Checkbox>
               </Stack>
@@ -153,7 +168,7 @@ export default function CustomizeImage() {
           {/* <Box id='image-container' className={styles.overlapGrid}> */}
           <Box id='image-container' className={styles.overlapGrid} visibility='hidden' pos={'absolute'}>
               <picture>
-                <img ref={contentfulImgRef} alt='' src={srcUrl} onLoad={()=>{console.log('IMAGE LOADED'); setImgLoaded(true)}} />
+                <img ref={contentfulImgRef} alt='' src={srcUrl} />
               </picture>
               <picture>
                 <img 
