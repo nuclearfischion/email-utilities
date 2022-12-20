@@ -30,18 +30,19 @@ export default function CustomizeImage() {
   const playIconSize = useMemo(() => ({ width: 50, height: 50 }), []);
   const shallowComp = JSON.stringify(contentfulImgProperties)
   // const playIconSize = useMemo(() => ({ width: 80, height: 80 }), []);
-
+  console.log(contentfulImgProperties)
   
   useEffect(() => {
     const newSrc = buildSrcUrl(contentfulImgProperties);
     setSrcUrl(newSrc);
-  }, [imgLoaded, shallowComp])
+  }, [shallowComp])
 
   useEffect(()=>{
       renderCanvas()
-  },[isVideoThumbnail])
+  },[isVideoThumbnail, shallowComp])
 
   const renderCanvas = () => {
+    console.log("temp fix")
     const canvas = canvasRef.current;
     const context = canvas.getContext('2d');
     context.clearRect(0, 0, contentfulImgProperties.width, contentfulImgProperties.height);
@@ -120,7 +121,6 @@ export default function CustomizeImage() {
           <Box className='dimensionsOptions' boxShadow='xs' p='6' rounded='md' bg='white'>
             <Text size='sm' fontWeight='bold'>Set Dimensions</Text>
             <RadioGroup onChange={(e) => {
-              setImgLoaded(false);
               const dimensions = setDimensions(e);
               setContentfulImgProperties({ ...contentfulImgProperties, ...dimensions });
             }}>
