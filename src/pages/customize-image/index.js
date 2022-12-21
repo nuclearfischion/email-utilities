@@ -12,6 +12,7 @@ import Navbar from '../../components/Navbar';
 export default function CustomizeImage() {
   // CANVAS STUFF
   const canvasRef = useRef(null);
+  const error = useRef(false)
   const contentfulImgRef = useRef(null);
   const playImgRef = useRef(null);
 
@@ -24,13 +25,11 @@ export default function CustomizeImage() {
     urlBase: 'https://images.ctfassets.net/hg121nxz9t5c/1O12hxeZDolKBZP72c84SA/5b24a20ba00616101e08544861dd6755/iStock-629668612.jpg',
   };
   const [contentfulImgProperties, setContentfulImgProperties] = useState(contentfulImgInit);
-  const [imgLoaded, setImgLoaded] = useState(false);
   const [srcUrl, setSrcUrl] = useState(`${contentfulImgProperties.urlBase}?fit=${contentfulImgProperties.fit}&f=${contentfulImgProperties.focus}&w=${contentfulImgProperties.width}&h=${contentfulImgProperties.height}`);
   const [isVideoThumbnail, setIsVideoThumbnail] = useState(false);
   const playIconSize = useMemo(() => ({ width: 50, height: 50 }), []);
   const shallowComp = JSON.stringify(contentfulImgProperties)
   // const playIconSize = useMemo(() => ({ width: 80, height: 80 }), []);
-  console.log(contentfulImgProperties)
   
   useEffect(() => {
     const newSrc = buildSrcUrl(contentfulImgProperties);
@@ -38,15 +37,15 @@ export default function CustomizeImage() {
   }, [shallowComp])
 
   useEffect(()=>{
+    if(!error.current)
       renderCanvas()
-  },[isVideoThumbnail, shallowComp])
+  },[isVideoThumbnail])
 
   const renderCanvas = () => {
-    console.log("temp fix")
     const canvas = canvasRef.current;
     const context = canvas.getContext('2d');
     context.clearRect(0, 0, contentfulImgProperties.width, contentfulImgProperties.height);
-      if (isValidHttpUrl(contentfulImgRef.current.src)) {
+      if (contentfulImgRef && contentfulImgRef.current && isValidHttpUrl(contentfulImgRef.current.src)) {
         context.drawImage(contentfulImgRef.current, 0, 0);
         if(isVideoThumbnail){
           const playIconParams = {
@@ -91,12 +90,12 @@ export default function CustomizeImage() {
             <Text>This should start with <code>https://images.ctfassets.net/</code></Text>
             <Input mt={5} placeholder='https://images.ctfassets.net/your-image-here'
               value={contentfulImgProperties.urlBase}
-              onChange={(e) => { setImgLoaded(false); setContentfulImgProperties({ ...contentfulImgProperties, urlBase: e.target.value });}}></Input>
+              onChange={(e) => {setContentfulImgProperties({ ...contentfulImgProperties, urlBase: e.target.value });}}></Input>
           </Box>
           <Box className='fitOptions' boxShadow='xs' p='6' rounded='md' bg='white'>
             <Text size='sm' fontWeight='bold'>Set Resizing Behavior</Text>
             <Text>Leave this on <code>fill</code> unless you know what you&rsquo;re doing.</Text>
-            <RadioGroup mt={5} onChange={(e) => { setImgLoaded(false); setContentfulImgProperties({ ...contentfulImgProperties, fit: e }) }} value={contentfulImgProperties.fit}>
+            <RadioGroup mt={5} onChange={(e) => {setContentfulImgProperties({ ...contentfulImgProperties, fit: e }) }} value={contentfulImgProperties.fit}>
               <Stack direction='row'>
                 <Radio value="fill">fill</Radio>
                 <Radio value='pad'>pad</Radio>
@@ -108,7 +107,7 @@ export default function CustomizeImage() {
           </Box>
           <Box className='focusOptions' boxShadow='xs' p='6' rounded='md' bg='white'>
             <Text size='sm' fontWeight='bold'>Set Focus</Text>
-            <RadioGroup mt={5} onChange={(e) => { setImgLoaded(false); setContentfulImgProperties({ ...contentfulImgProperties, focus: e }) }} value={contentfulImgProperties.focus}>
+            <RadioGroup mt={5} onChange={(e) => {setContentfulImgProperties({ ...contentfulImgProperties, focus: e }) }} value={contentfulImgProperties.focus}>
               <Stack direction='row'>
                 <Radio value='center'>center</Radio>
                 <Radio value='face'>single face</Radio>
@@ -145,7 +144,13 @@ export default function CustomizeImage() {
           {/* <Box id='image-container' className={styles.overlapGrid}> */}
           <Box id='image-container' className={styles.overlapGrid} visibility='hidden' pos={'absolute'}>
             <picture>
-              <img ref={contentfulImgRef} alt='' src={srcUrl} onLoad={() => { renderCanvas() }} onError={() => { console.log("Image could not be drawn") }} />
+              <img ref={contentfulImgRef} alt='' src={srcUrl} onLoad={() => { 
+                error.current = false
+                renderCanvas() 
+              }} onError={() => { 
+                error.current = true
+                console.log("Image could not be drawn") 
+                }} />
             </picture>
             <picture>
               <img
