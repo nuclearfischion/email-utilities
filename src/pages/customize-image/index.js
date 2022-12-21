@@ -46,7 +46,6 @@ export default function CustomizeImage() {
     const context = canvas.getContext('2d');
     context.clearRect(0, 0, contentfulImgProperties.width, contentfulImgProperties.height);
       if (contentfulImgRef && contentfulImgRef.current && isValidHttpUrl(contentfulImgRef.current.src)) {
-        console.log(contentfulImgRef.current.src)
         context.drawImage(contentfulImgRef.current, 0, 0);
         if(isVideoThumbnail){
           const playIconParams = {
